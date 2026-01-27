@@ -62,6 +62,11 @@ def get_all_nodes():
                             # Verify it belongs to this module (to avoid re-export noise)
                             # or at least is defined in the diagrams package
                             if obj.__module__.startswith("diagrams"):
+                                # Ensure the object actually belongs to this service (or a submodule of it)
+                                # This prevents listing imported classes from other services (e.g. Trace in operations vs devtools)
+                                if not obj.__module__.startswith(service_name):
+                                    continue
+                                    
                                 icons[short_provider][short_service].append(name)
                                 node_registry[name] = obj
                                 
