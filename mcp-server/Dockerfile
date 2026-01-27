@@ -14,9 +14,8 @@ WORKDIR /app
 # Copy the current directory (which contains the diagrams library source and our server code)
 COPY . /app
 
-# Install the diagrams library from source (current dir) and other requirements
-# We install 'mcp' explicitly as it might not be in the local repo's requirements
-RUN pip install --no-cache-dir . mcp
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Create an output directory for persistence if volume is mounted
 RUN mkdir -p /app/output
