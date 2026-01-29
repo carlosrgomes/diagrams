@@ -2,11 +2,15 @@ name: Docker Build and Publish
 
 on:
   push:
-    branches: [ "main", "feat/diagrams-mcp-server" ]
+    branches: [ "feat/diagrams-mcp-server" ]
+    paths:
+      - 'mcp-server/**'
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "feat/diagrams-mcp-server" ]
+    paths:
+      - 'mcp-server/**'
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -53,7 +57,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./mcp-server
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
