@@ -2,13 +2,13 @@ name: Docker Build and Publish
 
 on:
   push:
-    branches: [ "feat/diagrams-mcp-server" ]
+    branches: [ "master", "feat/diagrams-mcp-server" ]
     paths:
       - 'mcp-server/**'
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
   pull_request:
-    branches: [ "feat/diagrams-mcp-server" ]
+    branches: [ "master", "feat/diagrams-mcp-server" ]
     paths:
       - 'mcp-server/**'
 
