@@ -11,6 +11,7 @@ on:
     branches: [ "master", "feat/diagrams-mcp-server" ]
     paths:
       - 'mcp-server/**'
+  workflow_dispatch:
 
 env:
   # Use docker.io for Docker Hub if empty
