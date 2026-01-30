@@ -205,10 +205,13 @@ class Diagram:
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        self.render()
-        # Remove the graphviz file leaving only the image.
-        os.remove(self.filename)
-        setdiagram(None)
+        try:
+            self.render()
+        finally:
+            if os.path.exists(self.filename):
+                # Remove the graphviz file leaving only the image.
+                os.remove(self.filename)
+            setdiagram(None)
 
     def _repr_png_(self):
         return self.dot.pipe(format="png")
