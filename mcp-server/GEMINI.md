@@ -78,7 +78,7 @@ The server will define three main tools. It should use the `mcp.server.fastmcp` 
     -   `code` (string, required): The Python code using `diagrams` DSL.
     -   `filename` (string, optional): Desired output filename.
 
-*   **Returns**: 
+*   **Returns**:
     -   `status`: "success" or "error"
     -   `message`: Path to file or error message.
 

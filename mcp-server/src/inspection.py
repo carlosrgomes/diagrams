@@ -1,15 +1,17 @@
-import pkgutil
 import importlib
 import inspect
+import pkgutil
 import sys
 from collections import defaultdict
+
 import diagrams
 from diagrams import Node
+
 
 def get_all_nodes():
     """
     Dynamically inspects the diagrams package and returns a dictionary of all available Nodes.
-    
+
     Returns:
         dict: A nested dictionary structure:
               {
@@ -20,7 +22,7 @@ def get_all_nodes():
     """
     # Initialize the structure
     icons = defaultdict(lambda: defaultdict(list))
-    
+
     # We also keep a flat map for the execution context: Name -> Class
     # This handles potential name collisions by favoring the last seen or explicit logic if needed.
     node_registry = {}
@@ -33,14 +35,14 @@ def get_all_nodes():
     for _, provider_name, ispkg in pkgutil.iter_modules(path, prefix):
         if not ispkg:
             continue
-            
+
         # e.g., provider_name = "diagrams.aws"
         short_provider = provider_name.split(".")[-1]
-        
+
         # Skip internal modules if any (base, etc are actually useful, but we focus on providers)
-        if short_provider in ['base', 'custom']: 
-             # 'custom' and 'base' might be treated differently, but for now we scan them
-             pass
+        if short_provider in ['base', 'custom']:
+            # 'custom' and 'base' might be treated differently, but for now we scan them
+            pass
 
         try:
             provider_module = importlib.import_module(provider_name)
@@ -63,13 +65,14 @@ def get_all_nodes():
                             # or at least is defined in the diagrams package
                             if obj.__module__.startswith("diagrams"):
                                 # Ensure the object actually belongs to this service (or a submodule of it)
-                                # This prevents listing imported classes from other services (e.g. Trace in operations vs devtools)
+                                # This prevents listing imported classes from other services (e.g. Trace
+                                # in operations vs devtools)
                                 if not obj.__module__.startswith(service_name):
                                     continue
-                                    
+
                                 icons[short_provider][short_service].append(name)
                                 node_registry[name] = obj
-                                
+
                 except ImportError:
                     continue
                 except Exception:

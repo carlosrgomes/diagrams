@@ -14,12 +14,12 @@ graph TD
     subgraph Container ["Docker Container"]
         MCPServer["MCP Server (server.py)"]
         NodeRegistry["(Node Registry)"]
-        
+
         subgraph Logic ["Core Logic"]
             Inspector["src/inspection.py"]
             Executor["generate_diagram"]
         end
-        
+
         subgraph Libs ["Dependencies"]
             DiagramsLib["diagrams package"]
             Graphviz["Graphviz Binary"]
@@ -34,12 +34,12 @@ graph TD
     %% Tool Flows
     Client -- "list_icons()" --> MCPServer
     MCPServer -- "Query" --> NodeRegistry
-    
+
     Client -- "generate_diagram(code)" --> MCPServer
     MCPServer -- "Pass Code" --> Executor
     Executor -- "exec()" --> DiagramsLib
     DiagramsLib -- "Render" --> Graphviz
-    
+
     %% Output
     Graphviz -- "Generates PNG" --> Executor
     Executor -- "Writes File (Volume Mount)" --> HostFS
@@ -109,7 +109,7 @@ Generates a diagram from Python code.
   ```python
   from diagrams import Diagram
   from diagrams.aws.compute import EC2
-  
+
   with Diagram("Simple", show=False):
       EC2("web")
   ```
