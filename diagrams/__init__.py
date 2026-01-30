@@ -208,10 +208,14 @@ class Diagram:
         try:
             self.render()
         finally:
-            if os.path.exists(self.filename):
-                # Remove the graphviz file leaving only the image.
-                os.remove(self.filename)
+            try:
+                if os.path.exists(self.filename) and os.path.isfile(self.filename):
+                    # Remove the graphviz file leaving only the image.
+                    os.remove(self.filename)
+            except OSError:
+                pass
             setdiagram(None)
+            setcluster(None)
 
     def _repr_png_(self):
         return self.dot.pipe(format="png")
@@ -316,11 +320,13 @@ class Cluster:
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        if self._parent:
-            self._parent.subgraph(self.dot)
-        else:
-            self._diagram.subgraph(self.dot)
-        setcluster(self._parent)
+        try:
+            if self._parent:
+                self._parent.subgraph(self.dot)
+            else:
+                self._diagram.subgraph(self.dot)
+        finally:
+            setcluster(self._parent)
 
     def _validate_direction(self, direction: str) -> bool:
         return direction.upper() in self.__directions
