@@ -215,7 +215,6 @@ class Diagram:
             except OSError:
                 pass
             setdiagram(None)
-            setcluster(None)
 
     def _repr_png_(self):
         return self.dot.pipe(format="png")

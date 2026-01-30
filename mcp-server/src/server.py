@@ -44,9 +44,7 @@ def list_icons(provider_filter: str = None, service_filter: str = None):
 
     if service_filter not in provider_data:
         return {
-            "error": f"Service '{service_filter}' not found in '{provider_filter}'. Available: {
-                list(
-                    provider_data.keys())}"}
+            "error": f"Service '{service_filter}' not found in '{provider_filter}'. Available: {list(provider_data.keys())}"}
 
     return {service_filter: provider_data[service_filter]}
 
